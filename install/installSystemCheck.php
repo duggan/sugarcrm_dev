@@ -311,35 +311,16 @@ if(!make_writable('./data') || !make_writable('./data/upload')) {
 // check modules dir
 $_SESSION['unwriteable_module_files'] = array();
 //if(!$writeableFiles['ret_val']) {
-$passed_write = recursive_make_writable('./modules');
+//$passed_write = recursive_make_writable('./modules');
+$passed_write = true;
+
 if (isset($_SESSION['unwriteable_module_files']['failed']) && $_SESSION['unwriteable_module_files']['failed']){
     $passed_write = false;
 }
 
-if(!$passed_write) {
-
-    $moduleStatus = "<b><span class='stop'>{$mod_strings['ERR_CHECKSYS_NOT_WRITABLE']}</span></b>";
-    installLog("ERROR:: Module directories and the files under them are not writeable.");
-    $error_found = true;
-    $error_txt .= '
-      <tr>
-        <td><strong>'.$mod_strings['LBL_CHECKSYS_MODULE'].'</strong></td>
-        <td align="right" class="error">'.$moduleStatus.'</td>
-      </tr>';
-
-        //list which module directories are not writeable, if there are less than 10
-        $error_txt .= '
-          <tr>
-            <td colspan="2">
-            <b>'.$mod_strings['LBL_CHECKSYS_FIX_MODULE_FILES'].'</b>';
-        foreach($_SESSION['unwriteable_module_files'] as $key=>$file){
-            if($key !='.' && $key != 'failed'){
-                $error_txt .='<br>'.$file;
-            }
-        }
-        $error_txt .= '
-            </td>
-          </tr>';
+if($passed_write) {
+    $moduleStatus = "<b><span>Modules must be committed to your repository. They cannot be uploaded directly.</span></b>";
+    installLog("WARNING:: Module directories and the files under them are not writeable. Modules must be manually committed.");
 
 }else{
  installLog("/module  directory and subdirectory check passed");
