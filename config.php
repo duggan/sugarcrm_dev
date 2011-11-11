@@ -1,4 +1,5 @@
 <?php
+
 // created: 2011-11-11 15:41:07
 $sugar_config = array (
   'admin_access_control' => false,
